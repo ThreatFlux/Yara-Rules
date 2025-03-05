@@ -1,0 +1,29 @@
+# Build directory containing compiled YARA rules
+build/
+*.yarc
+samples/
+# Operating System generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Log files
+*.log
+
+# Temporary files
+*.tmp
+*~
+
+# Backup files
+*.bak
+*.backup
