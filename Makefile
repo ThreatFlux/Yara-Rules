@@ -8,7 +8,6 @@ FIND=find
 # Directories
 SRC_DIR=src
 BUILD_DIR=build
-
 # Find all .yar files recursively
 YARA_RULES=$(shell find $(SRC_DIR) -type f -name "*.yar")
 COMPILED_RULES=$(patsubst $(SRC_DIR)/%.yar,$(BUILD_DIR)/%.yarc,$(YARA_RULES))
@@ -49,10 +48,13 @@ compile-all: $(BUILD_DIR)/all.yarc
 test:
 	@echo "Testing YARA rule syntax..."
 	@for rule in $(YARA_RULES); do \
-		echo "Testing $$rule..."; \
-		$(YARA) -C $$rule /dev/null || exit 1; \
+	echo "Testing $$rule..."; \
+	$(YARAC) $$rule /tmp/test_rule.yarc || exit 1; \
 	done
 	@echo "All rules passed syntax check"
+	@echo "Checking rules against /usr/bin for matches..."
+	@$(YARA) src/known_good/operating_system/bin_binaries.yar /usr/bin > /tmp/scan_results.txt
+	@echo "Total matches: $$(wc -l < /tmp/scan_results.txt)"
 
 # Clean compiled rules
 clean:
